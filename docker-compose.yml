@@ -18,8 +18,8 @@ x-superset-user: &superset-user root
 x-superset-depends-on: &superset-depends-on
   - db
   - redis
-x-superset-volumes: &superset-volumes
-  # /app/pythonpath_docker will be appended to the PYTHONPATH in the final container
+x-superset-volumes:
+  &superset-volumes # /app/pythonpath_docker will be appended to the PYTHONPATH in the final container
   - ./docker:/app/docker
   - ./superset:/app/superset
   - ./superset-frontend:/app/superset-frontend
@@ -31,6 +31,13 @@ x-common-build: &common-build
   target: dev
   cache_from:
     - apache/superset-cache:3.10-slim-bookworm
+
+x-extended-build: &extended-build
+  context: .
+  dockerfile: extend.Dockerfile
+
+x-demo-networks: &demo-networks
+  - flagon_demo
 
 version: "4.0"
 services:
@@ -44,6 +51,7 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks: *demo-networks
   redis:
     image: redis:7
     container_name: superset_cache
@@ -52,6 +60,7 @@ services:
       - "127.0.0.1:6379:6379"
     volumes:
       - redis:/data
+    networks: *demo-networks
 
   db:
     env_file: docker/.env
@@ -63,11 +72,12 @@ services:
     volumes:
       - db_home:/var/lib/postgresql/data
       - ./docker/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    networks: *demo-networks
 
   superset:
     env_file: docker/.env
     build:
-      <<: *common-build
+      <<: *extended-build
     container_name: superset_app
     command: ["/app/docker/docker-bootstrap.sh", "app"]
     restart: unless-stopped
@@ -78,8 +88,10 @@ services:
     user: *superset-user
     depends_on: *superset-depends-on
     volumes: *superset-volumes
+    networks: *demo-networks
     environment:
       CYPRESS_CONFIG: "${CYPRESS_CONFIG}"
+      LOG_ENDPOINT: "${LOG_ENDPOINT}"
 
   superset-websocket:
     container_name: superset_websocket
@@ -89,6 +101,7 @@ services:
       - 8080:8080
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks: *demo-networks
     depends_on:
       - redis
     # Mount everything in superset-websocket into container and
@@ -113,13 +126,14 @@ services:
 
   superset-init:
     build:
-      <<: *common-build
+      <<: *extended-build
     container_name: superset_init
     command: ["/app/docker/docker-init.sh"]
     env_file: docker/.env
     depends_on: *superset-depends-on
     user: *superset-user
     volumes: *superset-volumes
+    networks: *demo-networks
     environment:
       CYPRESS_CONFIG: "${CYPRESS_CONFIG}"
     healthcheck:
@@ -138,10 +152,11 @@ services:
     env_file: docker/.env
     depends_on: *superset-depends-on
     volumes: *superset-volumes
+    networks: *demo-networks
 
   superset-worker:
     build:
-      <<: *common-build
+      <<: *extended-build
     container_name: superset_worker
     command: ["/app/docker/docker-bootstrap.sh", "worker"]
     env_file: docker/.env
@@ -149,17 +164,22 @@ services:
     depends_on: *superset-depends-on
     user: *superset-user
     volumes: *superset-volumes
+    networks: *demo-networks
     extra_hosts:
       - "host.docker.internal:host-gateway"
     healthcheck:
-      test: ["CMD-SHELL", "celery -A superset.tasks.celery_app:app inspect ping -d celery@$$HOSTNAME"]
+      test:
+        [
+          "CMD-SHELL",
+          "celery -A superset.tasks.celery_app:app inspect ping -d celery@$$HOSTNAME",
+        ]
     # Bump memory limit if processing selenium / thumbnails on superset-worker
     # mem_limit: 2038m
     # mem_reservation: 128M
 
   superset-worker-beat:
     build:
-      <<: *common-build
+      <<: *extended-build
     container_name: superset_worker_beat
     command: ["/app/docker/docker-bootstrap.sh", "beat"]
     env_file: docker/.env
@@ -167,12 +187,13 @@ services:
     depends_on: *superset-depends-on
     user: *superset-user
     volumes: *superset-volumes
+    networks: *demo-networks
     healthcheck:
       disable: true
 
   superset-tests-worker:
     build:
-      <<: *common-build
+      <<: *extended-build
     container_name: superset_tests_worker
     command: ["/app/docker/docker-bootstrap.sh", "worker"]
     env_file: docker/.env
@@ -187,7 +208,11 @@ services:
     user: *superset-user
     volumes: *superset-volumes
     healthcheck:
-      test: ["CMD-SHELL", "celery inspect ping -A superset.tasks.celery_app:app -d celery@$$HOSTNAME"]
+      test:
+        [
+          "CMD-SHELL",
+          "celery inspect ping -A superset.tasks.celery_app:app -d celery@$$HOSTNAME",
+        ]
 
 volumes:
   superset_home:
@@ -196,3 +221,8 @@ volumes:
     external: false
   redis:
     external: false
+
+networks:
+  flagon_demo:
+    name: flagon_demo
+    external: true

@@ -117,6 +117,7 @@ const plugins = [
     'process.env.REDUX_DEFAULT_MIDDLEWARE':
       process.env.REDUX_DEFAULT_MIDDLEWARE,
     'process.env.SCARF_ANALYTICS': JSON.stringify(process.env.SCARF_ANALYTICS),
+    'process.env.LOG_ENDPOINT': process.env.LOG_ENDPOINT,
   }),
 
   new CopyPlugin({
