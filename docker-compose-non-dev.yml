@@ -28,6 +28,9 @@ x-common-build: &common-build
   cache_from:
     - apache/superset-cache:3.10-slim-bookworm
 
+x-demo-networks: &demo-networks
+  - flagon_demo
+
 version: "4.0"
 services:
   redis:
@@ -36,6 +39,7 @@ services:
     restart: unless-stopped
     volumes:
       - redis:/data
+    networks: *demo-networks
 
   db:
     env_file: docker/prod.env
@@ -45,6 +49,7 @@ services:
     volumes:
       - db_home:/var/lib/postgresql/data
       - ./docker/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    networks: *demo-networks
 
   superset:
     env_file: docker/prod.env
@@ -58,6 +63,7 @@ services:
       - 8088:8088
     depends_on: *superset-depends-on
     volumes: *superset-volumes
+    networks: *demo-networks
 
   superset-init:
     container_name: superset_init
@@ -70,6 +76,7 @@ services:
     volumes: *superset-volumes
     healthcheck:
       disable: true
+    networks: *demo-networks
 
   superset-worker:
     build:
@@ -87,6 +94,7 @@ services:
           "CMD-SHELL",
           "celery -A superset.tasks.celery_app:app inspect ping -d celery@$$HOSTNAME",
         ]
+    networks: *demo-networks
 
   superset-worker-beat:
     build:
@@ -100,6 +108,7 @@ services:
     volumes: *superset-volumes
     healthcheck:
       disable: true
+    networks: *demo-networks
 
 volumes:
   superset_home:
@@ -108,3 +117,8 @@ volumes:
     external: false
   redis:
     external: false
+
+networks:
+  flagon_demo:
+    name: flagon_demo
+    external: true
