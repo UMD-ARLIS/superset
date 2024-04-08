@@ -55,7 +55,7 @@ const boundActions = bindActionCreators({ logEvent }, store.dispatch);
 userale.options({
   userId: bootstrapData.user?.username,
   autostart: true,
-  url: 'http://localhost:8085/topics/superset',
+  url: 'http://localhost:8085/topics/raw-logs',
   logDetails: true,
 });
 
