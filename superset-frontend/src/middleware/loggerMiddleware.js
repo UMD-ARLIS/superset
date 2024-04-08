@@ -26,7 +26,7 @@ import { LOG_EVENT } from '../logger/actions';
 import { LOG_EVENT_TYPE_TIMING } from '../logger/LogUtils';
 import DebouncedMessageQueue from '../utils/DebouncedMessageQueue';
 
-const LOG_ENDPOINT = 'http://userale-test:8000';
+const LOG_ENDPOINT ='http://localhost:8085/topics/superset-logs';
 
 const sendBeacon = events => {
   if (events.length <= 0) {

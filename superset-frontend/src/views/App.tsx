@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import * as userale from 'flagon-userale';
 import React, { Suspense, useEffect } from 'react';
 import { hot } from 'react-hot-loader/root';
 import {
@@ -50,6 +51,13 @@ const bootstrapData = getBootstrapData();
 let lastLocationPathname: string;
 
 const boundActions = bindActionCreators({ logEvent }, store.dispatch);
+
+userale.options({
+  userId: bootstrapData.user?.username,
+  autostart: true,
+  url: 'http://localhost:8085/topics/superset',
+  logDetails: true,
+});
 
 const LocationPathnameLogger = () => {
   const location = useLocation();
