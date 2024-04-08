@@ -32,10 +32,6 @@ x-common-build: &common-build
   cache_from:
     - apache/superset-cache:3.10-slim-bookworm
 
-x-extended-build: &extended-build
-  context: .
-  dockerfile: extend.Dockerfile
-
 x-demo-networks: &demo-networks
   - flagon_demo
 
@@ -77,7 +73,7 @@ services:
   superset:
     env_file: docker/.env
     build:
-      <<: *extended-build
+      <<: *common-build
     container_name: superset_app
     command: ["/app/docker/docker-bootstrap.sh", "app"]
     restart: unless-stopped
@@ -126,7 +122,7 @@ services:
 
   superset-init:
     build:
-      <<: *extended-build
+      <<: *common-build
     container_name: superset_init
     command: ["/app/docker/docker-init.sh"]
     env_file: docker/.env
@@ -144,7 +140,7 @@ services:
     environment:
       # set this to false if you have perf issues running the npm i; npm run dev in-docker
       # if you do so, you have to run this manually on the host, which should perform better!
-      BUILD_SUPERSET_FRONTEND_IN_DOCKER: ${BUILD_SUPERSET_FRONTEND_IN_DOCKER:-true}
+      BUILD_SUPERSET_FRONTEND_IN_DOCKER: ${BUILD_SUPERSET_FRONTEND_IN_DOCKER:-false} 
       SCARF_ANALYTICS: "${SCARF_ANALYTICS}"
       PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: ${BUILD_SUPERSET_FRONTEND_IN_DOCKER:-false}
     container_name: superset_node
@@ -156,7 +152,7 @@ services:
 
   superset-worker:
     build:
-      <<: *extended-build
+      <<: *common-build
     container_name: superset_worker
     command: ["/app/docker/docker-bootstrap.sh", "worker"]
     env_file: docker/.env
@@ -179,7 +175,7 @@ services:
 
   superset-worker-beat:
     build:
-      <<: *extended-build
+      <<: *common-build
     container_name: superset_worker_beat
     command: ["/app/docker/docker-bootstrap.sh", "beat"]
     env_file: docker/.env
@@ -193,7 +189,7 @@ services:
 
   superset-tests-worker:
     build:
-      <<: *extended-build
+      <<: *common-build
     container_name: superset_tests_worker
     command: ["/app/docker/docker-bootstrap.sh", "worker"]
     env_file: docker/.env
