@@ -1440,7 +1440,7 @@ DATABASE_OAUTH2_TIMEOUT = timedelta(seconds=30)
 CONTENT_SECURITY_POLICY_WARNING = True
 
 # Do you want Talisman enabled?
-TALISMAN_ENABLED = utils.cast_to_boolean(os.environ.get("TALISMAN_ENABLED", True))
+TALISMAN_ENABLED = utils.cast_to_boolean(os.environ.get("TALISMAN_ENABLED", False))
 
 # If you want Talisman, how do you want it configured??
 TALISMAN_CONFIG = {
@@ -1460,13 +1460,15 @@ TALISMAN_CONFIG = {
             "https://api.mapbox.com",
             "https://events.mapbox.com",
             "http://localhost:*",
+            "http://matamo:*",
+            "http://userale-test:*",
         ],
         "object-src": "'none'",
         "style-src": [
             "'self'",
             "'unsafe-inline'",
         ],
-        "script-src": ["'self'", "'strict-dynamic'"],
+        "script-src": ["'self'", "'strict-dynamic'", "'localhost:8001'", "'*'"],
     },
     "content_security_policy_nonce_in": ["script-src"],
     "force_https": False,
@@ -1490,13 +1492,17 @@ TALISMAN_DEV_CONFIG = {
             "https://api.mapbox.com",
             "https://events.mapbox.com",
             "http://localhost:*",
+            "http://matamo:*",
+            "http://userale-test:*",
         ],
         "object-src": "'none'",
         "style-src": [
             "'self'",
             "'unsafe-inline'",
         ],
-        "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'",
+                       "http://localhost:8001/js/container_N7wpVOI7.js",
+                       "http://localhost:8001/js/container_N7wpVOI7_preview.js"],
     },
     "content_security_policy_nonce_in": ["script-src"],
     "force_https": False,

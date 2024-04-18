@@ -55,7 +55,7 @@ const boundActions = bindActionCreators({ logEvent }, store.dispatch);
 userale.options({
   userId: bootstrapData.user?.username,
   autostart: true,
-  url: 'http://localhost:8085/topics/raw-logs',
+  url: 'http://localhost:8000', // Must be localhost because this is running client-side
   logDetails: true,
 });
 
@@ -76,10 +76,28 @@ const LocationPathnameLogger = () => {
   return <></>;
 };
 
+const Matamo = () => {
+  useEffect(() => {
+    console.log('Matamo mounted');
+    const _mtm = (window._mtm = window?._mtm || []);
+    _mtm.push({ 'mtm.startTime': new Date().getTime(), event: 'mtm.Start' });
+    (function () {
+      const d = document;
+      const g = d.createElement('script');
+      const s = d.getElementsByTagName('script')[0];
+      g.async = true;
+      g.src = 'http://localhost:8001/js/container_N7wpVOI7.js';
+      s.parentNode?.insertBefore(g, s);
+    })();
+  }, []);
+  return <></>;
+};
+
 const App = () => (
   <Router>
     <ScrollToTop />
     <LocationPathnameLogger />
+    <Matamo />
     <RootContextProviders>
       <GlobalStyles />
       <Menu
