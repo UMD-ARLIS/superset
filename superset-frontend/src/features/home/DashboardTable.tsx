@@ -198,6 +198,7 @@ function DashboardTable({
             onClick: () => {
               window.location.assign('/dashboard/new');
             },
+            useraleLabel: 'add-dashboard',
           },
           {
             name: t('View All »'),
@@ -211,6 +212,7 @@ function DashboardTable({
                   : '/dashboard/list/';
               history.push(target);
             },
+            useraleLabel: 'view-all',
           },
         ]}
       />

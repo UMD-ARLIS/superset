@@ -254,6 +254,7 @@ function CssTemplatesList({
     <>
       <SubMenu {...menuData} />
       <CssTemplateModal
+        data-userale-boundary="css-template-modal"
         addDangerToast={addDangerToast}
         cssTemplate={currentCssTemplate}
         onCssTemplateAdd={() => refreshData()}
@@ -262,6 +263,7 @@ function CssTemplatesList({
       />
       {templateCurrentlyDeleting && (
         <DeleteModal
+          data-userale-boundary="delete-modal"
           description={t('This action will permanently delete the template.')}
           onConfirm={() => {
             if (templateCurrentlyDeleting) {
@@ -274,6 +276,7 @@ function CssTemplatesList({
         />
       )}
       <ConfirmStatusChange
+        data-userale-boundary="confirm-status-change"
         title={t('Please confirm')}
         description={t(
           'Are you sure you want to delete the selected templates?',
@@ -294,6 +297,7 @@ function CssTemplatesList({
 
           return (
             <ListView<TemplateObject>
+              useraleLabel="template-object"
               className="css-templates-list-view"
               columns={columns}
               count={templatesCount}

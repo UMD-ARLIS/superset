@@ -129,6 +129,7 @@ export default function AddDataset() {
 
   return (
     <DatasetLayout
+      data-userale-boundary="dataset-layout"
       header={HeaderComponent()}
       leftPanel={editPageIsVisible ? null : LeftPanelComponent()}
       datasetPanel={

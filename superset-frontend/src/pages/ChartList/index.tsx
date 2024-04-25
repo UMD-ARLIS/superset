@@ -796,6 +796,7 @@ function ChartList(props: ChartListProps) {
       <SubMenu name={t('Charts')} buttons={subMenuButtons} />
       {sliceCurrentlyEditing && (
         <PropertiesModal
+          data-userale-boundary="properties-modal"
           onHide={closeChartEditModal}
           onSave={handleChartUpdated}
           show
@@ -803,6 +804,7 @@ function ChartList(props: ChartListProps) {
         />
       )}
       <ConfirmStatusChange
+        data-userale-boundary="confirm-status-change"
         title={t('Please confirm')}
         description={t('Are you sure you want to delete the selected charts?')}
         onConfirm={handleBulkChartDelete}
@@ -827,6 +829,7 @@ function ChartList(props: ChartListProps) {
           }
           return (
             <ListView<Chart>
+              useraleLabel="chart"
               bulkActions={bulkActions}
               bulkSelectEnabled={bulkSelectEnabled}
               cardSortSelectOptions={sortTypes}
@@ -862,6 +865,7 @@ function ChartList(props: ChartListProps) {
       </ConfirmStatusChange>
 
       <ImportModelsModal
+        data-userale-boundary="import-models-modal"
         resourceName="chart"
         resourceLabel={t('chart')}
         passwordsNeededMessage={PASSWORDS_NEEDED_MESSAGE}

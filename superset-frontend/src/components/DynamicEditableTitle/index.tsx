@@ -29,6 +29,7 @@ import React, {
 import { css, SupersetTheme, t } from '@superset-ui/core';
 import { Tooltip } from 'src/components/Tooltip';
 import { useResizeDetector } from 'react-resize-detector';
+import { logMatomoEvent } from 'src/logger/actions';
 
 export type DynamicEditableTitleProps = {
   title: string;
@@ -132,6 +133,7 @@ export const DynamicEditableTitle = ({
     if (!canEdit || isEditing) {
       return;
     }
+    logMatomoEvent('Title', 'Edit', 'EditableTitle', 'Editing');
     setIsEditing(true);
   }, [canEdit, isEditing]);
 
@@ -144,6 +146,7 @@ export const DynamicEditableTitle = ({
     if (title !== formattedTitle) {
       onSave(formattedTitle);
     }
+    logMatomoEvent('Title', 'Edit', 'EditableTitle', 'Done Editing');
     setIsEditing(false);
   }, [canEdit, currentTitle, onSave, title]);
 
@@ -178,6 +181,7 @@ export const DynamicEditableTitle = ({
       >
         {canEdit ? (
           <input
+            data-userale-boundary="editable-title-input"
             data-test="editable-title-input"
             className="dynamic-title-input"
             aria-label={label ?? t('Title')}

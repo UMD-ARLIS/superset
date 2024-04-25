@@ -550,6 +550,7 @@ function DatabaseList({
     <>
       <SubMenu {...menuData} />
       <DatabaseModal
+        data-userale-boundary="database-modal"
         databaseId={currentDatabase?.id}
         show={databaseModalOpen}
         onHide={handleDatabaseEditModal}
@@ -559,6 +560,7 @@ function DatabaseList({
       />
       {databaseCurrentlyDeleting && (
         <DeleteModal
+          data-userale-boundary="delete-modal"
           description={
             <>
               <p>
@@ -589,6 +591,7 @@ function DatabaseList({
       )}
 
       <ListView<DatabaseObject>
+        useraleLabel="database-object"
         className="database-list-view"
         columns={columns}
         count={databaseCount}

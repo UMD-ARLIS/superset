@@ -197,8 +197,9 @@ function AllEntities() {
 
   if (isLoading) return <Loading />;
   return (
-    <AllEntitiesContainer>
+    <AllEntitiesContainer data-userale-boundary="all-entities-container">
       <TagModal
+        data-userale-boundary="tag-modal"
         show={showTagModal}
         onHide={() => {
           setShowTagModal(false);
@@ -211,7 +212,7 @@ function AllEntities() {
           if (tagId) fetchTag(tagId);
         }}
       />
-      <AllEntitiesNav>
+      <AllEntitiesNav data-userale-boundary="all-entities-nav">
         <PageHeaderWithActions
           additionalActionsMenu={<></>}
           editableTitleProps={editableTitleProps}
@@ -241,7 +242,7 @@ function AllEntities() {
           showMenuDropdown={false}
         />
       </AllEntitiesNav>
-      <div className="entities">
+      <div className="entities" data-userale-boundary="entities">
         <AllEntitiesTable
           search={tag?.name || ''}
           setShowTagModal={setShowTagModal}

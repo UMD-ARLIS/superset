@@ -529,6 +529,7 @@ function SavedQueryList({
       <SubMenu {...menuData} />
       {queryCurrentlyDeleting && (
         <DeleteModal
+          data-userale-boundary="delete-modal"
           description={t(
             'This action will permanently delete the saved query.',
           )}
@@ -544,6 +545,7 @@ function SavedQueryList({
       )}
       {savedQueryCurrentlyPreviewing && (
         <SavedQueryPreviewModal
+          data-userale-boundary="saved-query-preview-modal"
           fetchData={handleSavedQueryPreview}
           onHide={() => setSavedQueryCurrentlyPreviewing(null)}
           savedQuery={savedQueryCurrentlyPreviewing}
@@ -553,6 +555,7 @@ function SavedQueryList({
         />
       )}
       <ConfirmStatusChange
+        data-userale-boundary="confirm-status-change"
         title={t('Please confirm')}
         description={t('Are you sure you want to delete the selected queries?')}
         onConfirm={handleBulkQueryDelete}
@@ -577,6 +580,7 @@ function SavedQueryList({
           }
           return (
             <ListView<SavedQueryObject>
+              useraleLabel="saved-query-object"
               className="saved_query-list-view"
               columns={columns}
               count={queryCount}
@@ -601,6 +605,7 @@ function SavedQueryList({
       </ConfirmStatusChange>
 
       <ImportModelsModal
+        data-userale-boundary="import-models-modal"
         resourceName="saved_query"
         resourceLabel={t('queries')}
         passwordsNeededMessage={PASSWORDS_NEEDED_MESSAGE}

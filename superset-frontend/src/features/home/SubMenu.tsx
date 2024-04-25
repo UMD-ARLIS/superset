@@ -182,6 +182,7 @@ export interface ButtonProps {
   name: ReactNode;
   onClick?: OnClickHandler;
   'data-test'?: string;
+  useraleLabel?: string;
   buttonStyle:
     | 'primary'
     | 'secondary'
@@ -247,7 +248,7 @@ const SubMenuComponent: React.FunctionComponent<SubMenuProps> = props => {
   }, [props.buttons]);
 
   return (
-    <StyledHeader>
+    <StyledHeader data-userale-boundary="sub-menu">
       <Row className="menu" role="navigation">
         {props.name && <div className="header">{props.name}</div>}
         <Menu mode={showMenu} style={{ backgroundColor: 'transparent' }}>
@@ -320,6 +321,7 @@ const SubMenuComponent: React.FunctionComponent<SubMenuProps> = props => {
           </Menu>
           {props.buttons?.map((btn, i) => (
             <Button
+              data-userale-boundary={btn.useraleLabel}
               key={i}
               buttonStyle={btn.buttonStyle}
               onClick={btn.onClick}

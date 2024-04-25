@@ -643,6 +643,7 @@ function DashboardList(props: DashboardListProps) {
       buttonStyle: 'secondary',
       'data-test': 'bulk-select',
       onClick: toggleBulkSelect,
+      useraleLabel: 'bulk-select',
     });
   }
   if (canCreate) {
@@ -656,6 +657,7 @@ function DashboardList(props: DashboardListProps) {
       onClick: () => {
         window.location.assign('/dashboard/new');
       },
+      useraleLabel: 'add dashboard',
     });
 
     subMenuButtons.push({
@@ -670,12 +672,14 @@ function DashboardList(props: DashboardListProps) {
       ),
       buttonStyle: 'link',
       onClick: openDashboardImportModal,
+      useraleLabel: 'import-dashboard',
     });
   }
   return (
     <>
       <SubMenu name={t('Dashboards')} buttons={subMenuButtons} />
       <ConfirmStatusChange
+        data-userale-boundary="confirm-status-change"
         title={t('Please confirm')}
         description={t(
           'Are you sure you want to delete the selected dashboards?',
@@ -735,6 +739,7 @@ function DashboardList(props: DashboardListProps) {
                 />
               )}
               <ListView<Dashboard>
+                useraleLabel="dashboard"
                 bulkActions={bulkActions}
                 bulkSelectEnabled={bulkSelectEnabled}
                 cardSortSelectOptions={sortTypes}
@@ -771,6 +776,7 @@ function DashboardList(props: DashboardListProps) {
       </ConfirmStatusChange>
 
       <ImportModelsModal
+        data-userale-boundary="import-models-modal"
         resourceName="dashboard"
         resourceLabel={t('dashboard')}
         passwordsNeededMessage={PASSWORDS_NEEDED_MESSAGE}

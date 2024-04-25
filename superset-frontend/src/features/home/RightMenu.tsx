@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, MouseEventHandler } from 'react';
 import rison from 'rison';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -53,6 +53,7 @@ import {
   GlobalMenuDataOptions,
   RightMenuProps,
 } from './types';
+import { logMatomoEvent } from 'src/logger/actions';
 
 const extensionsRegistry = getExtensionsRegistry();
 
@@ -297,6 +298,9 @@ const RightMenu = ({
     setShowDatabaseModal(false);
   };
 
+  const logNavigation = (path: string) =>
+    logMatomoEvent('Navigation', 'Select Route', path, 'click');
+
   const tooltipText = t(
     "Enable 'Allow file uploads to database' in any database's settings",
   );
@@ -310,7 +314,18 @@ const RightMenu = ({
       </Menu.Item>
     ) : (
       <Menu.Item key={item.name} css={styledChildMenu}>
-        {item.url ? <a href={item.url}> {item.label} </a> : item.label}
+        {item.url ? (
+          <a
+            href={item.url}
+            onClick={() => logNavigation(item.url || 'Unavailable')}
+            data-userale-boundary={`nav-link-${item.url}`}
+          >
+            {' '}
+            {item.label}{' '}
+          </a>
+        ) : (
+          item.label
+        )}
       </Menu.Item>
     );
 
@@ -374,6 +389,7 @@ const RightMenu = ({
         {!navbarRight.user_is_anonymous && showActionDropdown && (
           <SubMenu
             data-test="new-dropdown"
+            data-userale-boundary="right-menu-dropddown"
             title={
               <StyledI data-test="new-dropdown-icon" className="fa fa-plus" />
             }
@@ -414,7 +430,11 @@ const RightMenu = ({
                 ) && (
                   <Menu.Item key={menu.label}>
                     {isFrontendRoute(menu.url) ? (
-                      <Link to={menu.url || ''}>
+                      <Link
+                        to={menu.url || ''}
+                        onClick={() => logNavigation(menu.url || 'Unavailable')}
+                        data-userale-boundary={`nav-link-${menu.url}`}
+                      >
                         <i
                           data-test={`menu-item-${menu.label}`}
                           className={`fa ${menu.icon}`}
@@ -422,7 +442,11 @@ const RightMenu = ({
                         {menu.label}
                       </Link>
                     ) : (
-                      <a href={menu.url}>
+                      <a
+                        href={menu.url}
+                        onClick={() => logNavigation(menu.url || 'Unavailable')}
+                        data-userale-boundary={`nav-link-${menu.url}`}
+                      >
                         <i
                           data-test={`menu-item-${menu.label}`}
                           className={`fa ${menu.icon}`}
@@ -455,9 +479,25 @@ const RightMenu = ({
                   return (
                     <Menu.Item key={`${child.label}`}>
                       {isFrontendRoute(child.url) ? (
-                        <Link to={child.url || ''}>{menuItemDisplay}</Link>
+                        <Link
+                          to={child.url || ''}
+                          onClick={() =>
+                            logNavigation(child.url || 'Unavailable')
+                          }
+                          data-userale-boundary={`nav-link-${child.url}`}
+                        >
+                          {menuItemDisplay}
+                        </Link>
                       ) : (
-                        <a href={child.url}>{menuItemDisplay}</a>
+                        <a
+                          href={child.url}
+                          onClick={() =>
+                            logNavigation(child.url || 'Unavailable')
+                          }
+                          data-userale-boundary={`nav-link-${child.url}`}
+                        >
+                          {menuItemDisplay}
+                        </a>
                       )}
                     </Menu.Item>
                   );
@@ -475,11 +515,27 @@ const RightMenu = ({
             <Menu.ItemGroup key="user-section" title={t('User')}>
               {navbarRight.user_info_url && (
                 <Menu.Item key="info">
-                  <a href={navbarRight.user_info_url}>{t('Info')}</a>
+                  <a
+                    href={navbarRight.user_info_url}
+                    onClick={() =>
+                      logNavigation(navbarRight.user_info_url || 'Unavailable')
+                    }
+                    data-userale-boundary={`nav-link-${navbarRight.user_info_url}`}
+                  >
+                    {t('Info')}
+                  </a>
                 </Menu.Item>
               )}
               <Menu.Item key="logout">
-                <a href={navbarRight.user_logout_url}>{t('Logout')}</a>
+                <a
+                  href={navbarRight.user_logout_url}
+                  onClick={() =>
+                    logNavigation(navbarRight.user_logout_url || 'Unavailable')
+                  }
+                  data-userale-boundary={`nav-link-${navbarRight.user_logout_url}`}
+                >
+                  {t('Logout')}
+                </a>
               </Menu.Item>
             </Menu.ItemGroup>,
           ]}
@@ -522,9 +578,13 @@ const RightMenu = ({
         <>
           <StyledAnchor
             href={navbarRight.documentation_url}
+            onClick={() =>
+              logNavigation(navbarRight.documentation_url || 'Unavailable')
+            }
             target="_blank"
             rel="noreferrer"
             title={navbarRight.documentation_text || t('Documentation')}
+            data-userale-boundary={`nav-link-${navbarRight.documentation_url}`}
           >
             {navbarRight.documentation_icon ? (
               <i className={navbarRight.documentation_icon} />
@@ -539,9 +599,13 @@ const RightMenu = ({
         <>
           <StyledAnchor
             href={navbarRight.bug_report_url}
+            onClick={() =>
+              logNavigation(navbarRight.bug_report_url || 'Unavailable')
+            }
             target="_blank"
             rel="noreferrer"
             title={navbarRight.bug_report_text || t('Report a bug')}
+            data-userale-boundary={`nav-link-${navbarRight.bug_report_url}`}
           >
             {navbarRight.bug_report_icon ? (
               <i className={navbarRight.bug_report_icon} />
@@ -553,7 +617,13 @@ const RightMenu = ({
         </>
       )}
       {navbarRight.user_is_anonymous && (
-        <StyledAnchor href={navbarRight.user_login_url}>
+        <StyledAnchor
+          href={navbarRight.user_login_url}
+          onClick={() =>
+            logNavigation(navbarRight.user_login_url || 'Unavailable')
+          }
+          data-userale-boundary={`nav-link-${navbarRight.user_login_url}`}
+        >
           <i className="fa fa-fw fa-sign-in" />
           {t('Login')}
         </StyledAnchor>

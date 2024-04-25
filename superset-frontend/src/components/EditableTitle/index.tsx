@@ -22,6 +22,7 @@ import cx from 'classnames';
 import { css, styled, SupersetTheme, t } from '@superset-ui/core';
 import { Tooltip } from 'src/components/Tooltip';
 import CertifiedBadge from '../CertifiedBadge';
+import { logMatomoEvent } from 'src/logger/actions';
 
 export interface EditableTitleProps {
   canEdit?: boolean;
@@ -97,6 +98,7 @@ export default function EditableTitle({
       return;
     }
 
+    logMatomoEvent('Title', 'Edit', 'EditableTitle', 'Editing');
     // For multi-line values, save the actual rendered size of the displayed text.
     // Later, if a textarea is constructed for editing the value, we'll need this.
     const contentBounding = contentRef.current
@@ -113,6 +115,7 @@ export default function EditableTitle({
       return;
     }
 
+    logMatomoEvent('Title', 'Edit', 'EditableTitle', 'Done Editing');
     setIsEditing(false);
 
     if (!formattedTitle.length) {
@@ -176,6 +179,7 @@ export default function EditableTitle({
     multiLine && isEditing ? (
       <textarea
         data-test="editable-title-input"
+        data-userale-boundary="editable-title-input"
         ref={contentRef}
         value={value}
         className={!title ? 'text-muted' : undefined}
@@ -190,6 +194,7 @@ export default function EditableTitle({
     ) : (
       <input
         data-test="editable-title-input"
+        data-userale-boundary="editable-title-input"
         ref={contentRef}
         type={isEditing ? 'text' : 'button'}
         value={value}
@@ -222,6 +227,7 @@ export default function EditableTitle({
     titleComponent = url ? (
       <Link
         to={url}
+        data-userale-boundary="editable-title-input"
         data-test="editable-title-input"
         css={(theme: SupersetTheme) => css`
           color: ${theme.colors.grayscale.dark1};
@@ -234,11 +240,17 @@ export default function EditableTitle({
         {value}
       </Link>
     ) : (
-      <span data-test="editable-title-input">{value}</span>
+      <span
+        data-userale-boundary="editable-title-input"
+        data-test="editable-title-input"
+      >
+        {value}
+      </span>
     );
   }
   return (
     <span
+      data-userale-boundary="editable-title"
       data-test="editable-title"
       className={cx(
         'editable-title',

@@ -22,7 +22,9 @@ import { DashboardPage } from 'src/dashboard/containers/DashboardPage';
 
 const DashboardRoute: FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
-  return <DashboardPage idOrSlug={idOrSlug} />;
+  return (
+    <DashboardPage data-userale-boundary="dashboard-page" idOrSlug={idOrSlug} />
+  );
 };
 
 export default DashboardRoute;

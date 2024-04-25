@@ -45,6 +45,7 @@ import Chart from 'src/types/Chart';
 import handleResourceExport from 'src/utils/export';
 import Loading from 'src/components/Loading';
 import ErrorBoundary from 'src/components/ErrorBoundary';
+import { logMatomoEvent } from 'src/logger/actions';
 import EmptyState from './EmptyState';
 import { WelcomeTable } from './types';
 import SubMenu from './SubMenu';
@@ -181,6 +182,7 @@ function ChartTable({
       )}
 
       <SubMenu
+        data-userale-boundary="charts-submenu"
         activeChild={activeTab}
         tabs={menuTabs}
         buttons={[
@@ -193,8 +195,10 @@ function ChartTable({
             ),
             buttonStyle: 'tertiary',
             onClick: () => {
+              logMatomoEvent('Charts', 'Add Chart', 'New Chart Button');
               window.location.assign('/chart/add');
             },
+            useraleLabel: 'add-chart',
           },
           {
             name: t('View All »'),
@@ -208,6 +212,7 @@ function ChartTable({
                   : '/chart/list/';
               history.push(target);
             },
+            useraleLabel: 'view-all',
           },
         ]}
       />

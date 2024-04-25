@@ -157,5 +157,5 @@ export default function ExplorePage() {
   if (!isLoaded) {
     return <Loading />;
   }
-  return <ExploreViewContainer />;
+  return <ExploreViewContainer data-userale-boundary="explore-view"/>;
 }

@@ -30,3 +30,39 @@ export function logEvent(eventName: string, eventData: Record<string, any>) {
       },
     });
 }
+
+export function logMatomoEvent(
+  eventCategory: string,
+  eventAction: string,
+  eventName: string,
+  eventValue?: string | number,
+) {
+  if (!window?._paq) return;
+  const eventLog: Array<string | number> = [
+    'trackEvent',
+    eventCategory,
+    eventAction,
+    eventName,
+  ];
+  if (eventValue) eventLog.push(eventValue);
+
+  window._paq.push(eventLog);
+}
+
+export function buildBoundaries(e: Event) {
+  const boundaries: string[] = [];
+
+  let ele = e.target;
+  while (ele) {
+    if (ele instanceof HTMLElement) {
+      if (ele.dataset && Object.keys(ele.dataset).includes('useraleBoundary')) {
+        const boundary = ele.dataset.useraleBoundary;
+        if (boundary) boundaries.unshift(boundary);
+      }
+      ele = ele.parentElement;
+    } else {
+      break;
+    }
+  }
+  return boundaries;
+}

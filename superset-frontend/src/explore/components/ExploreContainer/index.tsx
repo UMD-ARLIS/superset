@@ -79,7 +79,9 @@ const ExploreContainer: React.FC<{}> = ({ children }) => {
   return (
     <DropzoneContext.Provider value={dropzoneValue}>
       <DraggingContext.Provider value={dragging}>
-        <StyledDiv>{children}</StyledDiv>
+        <StyledDiv data-userale-boundary="explore-container">
+          {children}
+        </StyledDiv>
       </DraggingContext.Provider>
     </DropzoneContext.Provider>
   );

@@ -438,6 +438,7 @@ function QueryList({ addDangerToast }: QueryListProps) {
       <SubMenu {...menuData} />
       {queryCurrentlyPreviewing && (
         <QueryPreviewModal
+          data-userale-boundary="query-preview-modal"
           onHide={() => setQueryCurrentlyPreviewing(undefined)}
           query={queryCurrentlyPreviewing}
           queries={queries}
@@ -447,6 +448,7 @@ function QueryList({ addDangerToast }: QueryListProps) {
         />
       )}
       <TopAlignedListView
+        data-userale-boundary="top-aligned-list-view"
         className="query-history-list-view"
         columns={columns}
         count={queryCount}

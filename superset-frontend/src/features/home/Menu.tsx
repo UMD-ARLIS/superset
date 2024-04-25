@@ -35,6 +35,7 @@ import {
   MenuData,
 } from 'src/types/bootstrapTypes';
 import RightMenu from './RightMenu';
+import { logMatomoEvent } from 'src/logger/actions';
 
 interface MenuProps {
   data: MenuData;
@@ -239,6 +240,9 @@ export function Menu({
   const standalone = getUrlParam(URL_PARAMS.standalone);
   if (standalone || uiConfig.hideNav) return <></>;
 
+  const logNavigation = (path: string) =>
+    logMatomoEvent('Navigation', 'Select Route', path, 'click');
+
   const renderSubMenu = ({
     label,
     childs,
@@ -280,6 +284,8 @@ export function Menu({
                     to={child.url || ''}
                     exact
                     activeClassName="is-active"
+                    onClick={() => logNavigation(child.url || 'Unavailable')}
+                    data-userale-boundary={`nav-link-${child.url}`}
                   >
                     {child.label}
                   </NavLink>
@@ -294,8 +300,14 @@ export function Menu({
       </SubMenu>
     );
   };
+
   return (
-    <StyledHeader className="top" id="main-menu" role="navigation">
+    <StyledHeader
+      data-userale-boundary="main-menu"
+      className="top"
+      id="main-menu"
+      role="navigation"
+    >
       <Global styles={globalStyles(theme)} />
       <Row>
         <Col md={16} xs={24}>
@@ -306,11 +318,21 @@ export function Menu({
             arrowPointAtCenter
           >
             {isFrontendRoute(window.location.pathname) ? (
-              <GenericLink className="navbar-brand" to={brand.path}>
+              <GenericLink
+                className="navbar-brand"
+                to={brand.path}
+                onClick={() => logNavigation(brand.path)}
+                data-userale-boundary={`nav-link-${brand.path}`}
+              >
                 <img src={brand.icon} alt={brand.alt} />
               </GenericLink>
             ) : (
-              <a className="navbar-brand" href={brand.path}>
+              <a
+                className="navbar-brand"
+                href={brand.path}
+                onClick={() => logNavigation(brand.path)}
+                data-userale-boundary={`nav-link-${brand.path}`}
+              >
                 <img src={brand.icon} alt={brand.alt} />
               </a>
             )}

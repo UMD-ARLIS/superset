@@ -744,6 +744,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
       <SubMenu {...menuData} />
       {datasetCurrentlyDeleting && (
         <DeleteModal
+          data-userale-boundary="delete-modal"
           description={
             <>
               <p>
@@ -773,6 +774,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
       )}
       {datasetCurrentlyEditing && (
         <DatasourceModal
+          data-userale-boundary="datasource-modal"
           datasource={datasetCurrentlyEditing}
           onDatasourceSave={refreshData}
           onHide={closeDatasetEditModal}
@@ -780,11 +782,13 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
         />
       )}
       <DuplicateDatasetModal
+        data-userale-boundary="duplicate-dataset-modal"
         dataset={datasetCurrentlyDuplicating}
         onHide={closeDatasetDuplicateModal}
         onDuplicate={handleDatasetDuplicate}
       />
       <ConfirmStatusChange
+        data-userale-boundary="confirm-status-modal"
         title={t('Please confirm')}
         description={t(
           'Are you sure you want to delete the selected datasets?',
@@ -811,6 +815,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
           }
           return (
             <ListView<Dataset>
+              useraleLabel="dataset"
               className="dataset-list-view"
               columns={columns}
               data={datasets}
@@ -869,6 +874,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
       </ConfirmStatusChange>
 
       <ImportModelsModal
+        data-userale-boundary="import-models-modal"
         resourceName="dataset"
         resourceLabel={t('dataset')}
         passwordsNeededMessage={PASSWORDS_NEEDED_MESSAGE}

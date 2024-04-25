@@ -26,7 +26,7 @@ import { LOG_EVENT } from '../logger/actions';
 import { LOG_EVENT_TYPE_TIMING } from '../logger/LogUtils';
 import DebouncedMessageQueue from '../utils/DebouncedMessageQueue';
 
-const LOG_ENDPOINT ='http://localhost:8000'; // Must be localhost, because runs client-side
+const LOG_ENDPOINT = 'http://localhost:8000'; // Must be localhost, because runs client-side
 
 const sendBeacon = events => {
   if (events.length <= 0) {
@@ -34,7 +34,6 @@ const sendBeacon = events => {
   }
 
   let endpoint = LOG_ENDPOINT;
-  console.log('====> Logger Endpoint', endpoint);
   const { source, source_id } = events[0];
   // backend logs treat these request params as first-class citizens
   if (source === 'dashboard') {

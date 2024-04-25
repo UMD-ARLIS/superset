@@ -203,6 +203,7 @@ const ViewModeToggle = ({
 );
 
 export interface ListViewProps<T extends object = any> {
+  useraleLabel?: string;
   columns: any[];
   data: T[];
   count: number;
@@ -236,6 +237,7 @@ export interface ListViewProps<T extends object = any> {
 }
 
 function ListView<T extends object = any>({
+  useraleLabel,
   columns,
   data,
   count,
@@ -329,7 +331,7 @@ function ListView<T extends object = any>({
   }, [gotoPage, loading, pageCount, pageIndex]);
 
   return (
-    <ListViewStyles>
+    <ListViewStyles data-userale-boundary={useraleLabel}>
       {allowBulkTagActions && (
         <BulkTagModal
           show={showBulkTagModal}

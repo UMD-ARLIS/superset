@@ -274,6 +274,7 @@ function AnnotationList({
         buttons={subMenuButtons}
       />
       <AnnotationModal
+        data-userale-boundary="annotation-modal"
         addDangerToast={addDangerToast}
         addSuccessToast={addSuccessToast}
         annotation={currentAnnotation}
@@ -284,6 +285,7 @@ function AnnotationList({
       />
       {annotationCurrentlyDeleting && (
         <DeleteModal
+          data-userale-boundary="delete-modal"
           description={t(
             'Are you sure you want to delete %s?',
             annotationCurrentlyDeleting?.short_descr,
@@ -299,6 +301,7 @@ function AnnotationList({
         />
       )}
       <ConfirmStatusChange
+        data-userale-boundary="confirm-status-change"
         title={t('Please confirm')}
         description={t(
           'Are you sure you want to delete the selected annotations?',
@@ -317,6 +320,7 @@ function AnnotationList({
 
           return (
             <ListView<AnnotationObject>
+              useraleLabel="annotation-object"
               className="annotations-list-view"
               bulkActions={bulkActions}
               bulkSelectEnabled={bulkSelectEnabled}

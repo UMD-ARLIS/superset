@@ -551,6 +551,7 @@ function AlertList({
         </RefreshContainer>
       </SubMenu>
       <AlertReportModal
+        data-userale-boundary="alert-report-modal"
         alert={currentAlert}
         addDangerToast={addDangerToast}
         layer={currentAlert}
@@ -565,6 +566,7 @@ function AlertList({
       />
       {currentAlertDeleting && (
         <DeleteModal
+          data-userale-boundary="delete-modal"
           description={t(
             'This action will permanently delete %s.',
             currentAlertDeleting.name,
@@ -580,6 +582,7 @@ function AlertList({
         />
       )}
       <ConfirmStatusChange
+        data-userale-boundary="confirm-status-change"
         title={t('Please confirm')}
         description={t(
           'Are you sure you want to delete the selected %s?',
@@ -600,6 +603,7 @@ function AlertList({
             : [];
           return (
             <ListView<AlertObject>
+              useraleLabel="alert-object"
               className="alerts-list-view"
               columns={columns}
               count={alertsCount}

@@ -62,7 +62,7 @@ export default function SqlLab() {
   }
 
   return (
-    <LocationProvider>
+    <LocationProvider data-userale-boundary="sql-lab">
       <div
         css={css`
           flex: 1 1 auto;
@@ -71,8 +71,8 @@ export default function SqlLab() {
           flex-direction: column;
         `}
       >
-        <SqlLabGlobalStyles />
-        <App />
+        <SqlLabGlobalStyles data-userale-boundary="global-styles" />
+        <App data-userale-boundary="app" />
         {isFeatureEnabled(FeatureFlag.SqllabBackendPersistence) && (
           <EditorAutoSync />
         )}

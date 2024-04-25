@@ -23,6 +23,7 @@ import { Select } from 'src/components';
 import { SelectOptionsType, SelectProps } from 'src/components/Select/types';
 import { SelectValue, LabeledValue } from 'antd/lib/select';
 import withToasts from 'src/components/MessageToasts/withToasts';
+import { logMatomoEvent } from 'src/logger/actions';
 
 type SelectAsyncProps = Omit<SelectProps, 'options' | 'ariaLabel' | 'onChange'>;
 
@@ -67,6 +68,7 @@ const SelectAsyncControl = ({
     if (isLabeledValue(val)) {
       onChangeVal = val.value;
     }
+    logMatomoEvent('Charts', 'Edit Chart', 'SelectAsync');
     onChange(onChangeVal);
   };
 
@@ -101,6 +103,7 @@ const SelectAsyncControl = ({
 
   return (
     <Select
+      data-userale-boundary="select-async"
       allowClear={allowClear}
       ariaLabel={ariaLabel || t('Select ...')}
       value={getValue()}

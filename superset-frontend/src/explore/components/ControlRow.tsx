@@ -17,6 +17,7 @@
  * under the License.
  */
 import React, { useCallback } from 'react';
+import { logMatomoEvent } from 'src/logger/actions';
 
 const NUM_COLUMNS = 12;
 
@@ -37,15 +38,22 @@ export default function ControlRow({ controls }: { controls: Control[] }) {
   const colSize = countableControls.length
     ? NUM_COLUMNS / countableControls.length
     : NUM_COLUMNS;
+
   return (
     <div className="row">
       {controls.map((control, i) => (
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
+          data-userale-boundary={`control-row-${control?.props.name}`}
           className={`col-lg-${colSize} col-xs-12`}
           style={{
             display: isHiddenControl(control) ? 'none' : 'block',
           }}
           key={i}
+          onClick={() => {
+            if (!control) return;
+            logMatomoEvent('Charts', 'Edit Chart', control.props.name, 'click');
+          }}
         >
           {control}
         </div>

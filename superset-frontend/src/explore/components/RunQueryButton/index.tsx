@@ -20,6 +20,7 @@
 import React, { ReactNode } from 'react';
 import { t } from '@superset-ui/core';
 import Button from 'src/components/Button';
+import { logMatomoEvent } from 'src/logger/actions';
 
 export type RunQueryButtonProps = {
   loading: boolean;
@@ -46,7 +47,11 @@ export const RunQueryButton = ({
     </Button>
   ) : (
     <Button
-      onClick={onQuery}
+      data-userale-boundary="run-query-button"
+      onClick={() => {
+        logMatomoEvent('Charts', 'Edit Chart', 'RunQueryButton', 'click');
+        onQuery();
+      }}
       buttonStyle={chartIsStale ? 'primary' : 'secondary'}
       disabled={!!errorMessage}
       data-test="run-query-button"

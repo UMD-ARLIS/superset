@@ -259,6 +259,7 @@ const SavedQueries = ({
               </Link>
             ),
             buttonStyle: 'tertiary',
+            useraleLabel: 'new-sql-query',
           },
           {
             name: t('View All »'),
@@ -266,6 +267,7 @@ const SavedQueries = ({
             onClick: () => {
               window.location.href = '/savedqueryview/list';
             },
+            useraleLabel: 'view-all',
           },
         ]}
       />

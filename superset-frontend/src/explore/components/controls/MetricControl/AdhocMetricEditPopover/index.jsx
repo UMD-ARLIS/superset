@@ -49,6 +49,7 @@ import {
   StyledMetricOption,
   StyledColumnOption,
 } from 'src/explore/components/optionRenderers';
+import { logMatomoEvent } from 'src/logger/actions';
 
 const propTypes = {
   onChange: PropTypes.func.isRequired,
@@ -164,6 +165,7 @@ export default class AdhocMetricEditPopover extends React.PureComponent {
     const oldMetric = this.props.savedMetric?.metric_name
       ? this.props.savedMetric
       : this.props.adhocMetric;
+    logMatomoEvent('Charts', 'Edit Chart', 'Metrics Popover', metric);
     this.props.onChange(
       {
         ...metric,
@@ -174,6 +176,12 @@ export default class AdhocMetricEditPopover extends React.PureComponent {
   }
 
   onResetStateAndClose() {
+    logMatomoEvent(
+      'Charts',
+      'Edit Chart',
+      'Metrics Popover',
+      this.props.savedMetric?.metric_name,
+    );
     this.setState(
       {
         adhocMetric: this.props.adhocMetric,
@@ -368,11 +376,13 @@ export default class AdhocMetricEditPopover extends React.PureComponent {
         layout="vertical"
         id="metrics-edit-popover"
         data-test="metrics-edit-popover"
+        data-userale-boundary="metrics-edit-popover"
         {...popoverProps}
       >
         <Tabs
           id="adhoc-metric-edit-tabs"
           data-test="adhoc-metric-edit-tabs"
+          data-userale-boundary="adhoc-metric-edit-tabs"
           defaultActiveKey={this.defaultActiveTabKey}
           className="adhoc-metric-edit-tabs"
           style={{ height: this.state.height, width: this.state.width }}
@@ -479,10 +489,12 @@ export default class AdhocMetricEditPopover extends React.PureComponent {
               )
             }
             data-test="adhoc-metric-edit-tab#custom"
+            data-userale-boundary="adhoc-metric-edit-tab#custom"
             disabled={extra.disallow_adhoc_metrics}
           >
             <SQLEditor
               data-test="sql-editor"
+              data-userale-boundary="sql-editor"
               showLoadingForImport
               ref={this.handleAceEditorRef}
               keywords={keywords}
@@ -506,6 +518,7 @@ export default class AdhocMetricEditPopover extends React.PureComponent {
             buttonSize="small"
             onClick={this.onResetStateAndClose}
             data-test="AdhocMetricEdit#cancel"
+            data-userale-boundary="AdhocMetricEdit#cancel"
             cta
           >
             {t('Close')}
@@ -515,6 +528,7 @@ export default class AdhocMetricEditPopover extends React.PureComponent {
             buttonStyle="primary"
             buttonSize="small"
             data-test="AdhocMetricEdit#save"
+            data-userale-boundary="AdhocMetricEdit#save"
             onClick={this.onSave}
             cta
           >

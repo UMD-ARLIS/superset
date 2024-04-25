@@ -330,6 +330,7 @@ function RowLevelSecurityList(props: RLSProps) {
     <>
       <SubMenu name={t('Row Level Security')} buttons={subMenuButtons} />
       <ConfirmStatusChange
+        data-userale-boundary="confirm-status-change"
         title={t('Please confirm')}
         description={t('Are you sure you want to delete the selected rules?')}
         onConfirm={handleBulkRulesDelete}
@@ -347,6 +348,7 @@ function RowLevelSecurityList(props: RLSProps) {
           return (
             <>
               <RowLevelSecurityModal
+                data-userale-boundary="row-level-security-modal"
                 rule={currentRule}
                 addDangerToast={addDangerToast}
                 onHide={handleRuleModalHide}
@@ -354,6 +356,7 @@ function RowLevelSecurityList(props: RLSProps) {
                 show={ruleModalOpen}
               />
               <ListView<RLSObject>
+                useraleLabel="row-level-security-object"
                 className="rls-list-view"
                 bulkActions={bulkActions}
                 bulkSelectEnabled={bulkSelectEnabled}

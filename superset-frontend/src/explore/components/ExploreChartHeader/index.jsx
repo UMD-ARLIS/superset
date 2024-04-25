@@ -39,6 +39,7 @@ import { PageHeaderWithActions } from 'src/components/PageHeaderWithActions';
 import MetadataBar, { MetadataType } from 'src/components/MetadataBar';
 import { setSaveChartModalVisibility } from 'src/explore/actions/saveModalActions';
 import { useExploreAdditionalActionsMenu } from '../useExploreAdditionalActionsMenu';
+import { logMatomoEvent } from 'src/logger/actions';
 
 const propTypes = {
   actions: PropTypes.object.isRequired,
@@ -142,6 +143,7 @@ export const ExploreChartHeader = ({
   };
 
   const showModal = useCallback(() => {
+    logMatomoEvent('Charts', 'Edit Chart', 'AdditionalActionsMenu', 'Click');
     dispatch(setSaveChartModalVisibility(true));
   }, [dispatch]);
 
@@ -273,6 +275,7 @@ export const ExploreChartHeader = ({
                 onClick={showModal}
                 disabled={saveDisabled}
                 data-test="query-save-button"
+                data-userale-boundary="query-save-button"
                 css={saveButtonStyles}
               >
                 <Icons.SaveOutlined iconSize="l" />

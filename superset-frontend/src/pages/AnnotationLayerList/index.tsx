@@ -289,14 +289,17 @@ function AnnotationLayersList({
     <>
       <SubMenu name={t('Annotation layers')} buttons={subMenuButtons} />
       <AnnotationLayerModal
+        data-userale-boundary="annotations-layer-modal"
         addDangerToast={addDangerToast}
         layer={currentAnnotationLayer}
         onLayerAdd={onLayerAdd}
         onHide={onModalHide}
         show={annotationLayerModalOpen}
       />
+      data-userale-boundary="alert-object"
       {layerCurrentlyDeleting && (
         <DeleteModal
+          data-userale-boundary="delete-modal"
           description={t('This action will permanently delete the layer.')}
           onConfirm={() => {
             if (layerCurrentlyDeleting) {
@@ -309,6 +312,7 @@ function AnnotationLayersList({
         />
       )}
       <ConfirmStatusChange
+        data-userale-boundary="confirm-status-change"
         title={t('Please confirm')}
         description={t('Are you sure you want to delete the selected layers?')}
         onConfirm={handleBulkLayerDelete}
@@ -327,6 +331,7 @@ function AnnotationLayersList({
 
           return (
             <ListView<AnnotationLayerObject>
+              useraleLabel="annotation-layer-object"
               className="annotation-layers-list-view"
               columns={columns}
               count={layersCount}

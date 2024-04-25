@@ -33,6 +33,7 @@ import VizTypeGallery, {
   MAX_ADVISABLE_VIZ_GALLERY_WIDTH,
 } from './VizTypeGallery';
 import { FastVizSwitcher } from './FastVizSwitcher';
+import { logMatomoEvent } from 'src/logger/actions';
 
 interface VizTypeControlProps {
   description?: string;
@@ -93,6 +94,12 @@ const VizTypeControl = ({
 
   const onSubmit = useCallback(() => {
     onChange(selectedViz);
+    logMatomoEvent(
+      'Charts',
+      'Edit Chart',
+      'VizTypeControl',
+      selectedViz || 'Unavailalbe',
+    );
     setShowModal(false);
   }, [selectedViz, onChange]);
 
@@ -139,6 +146,7 @@ const VizTypeControl = ({
       >
         {/* When the key increments, it forces react to re-init the gallery component */}
         <VizTypeGallery
+          data-userale-boundary="viz-type-gallery"
           key={modalKey}
           selectedViz={selectedViz}
           onChange={setSelectedViz}

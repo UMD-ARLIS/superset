@@ -210,7 +210,11 @@ class App extends React.PureComponent<AppProps, AppState> {
       );
     }
     return (
-      <SqlLabStyles data-test="SqlLabApp" className="App SqlLab">
+      <SqlLabStyles
+        data-userale-boundary="sql-lab-app"
+        data-test="SqlLabApp"
+        className="App SqlLab"
+      >
         <QueryAutoRefresh
           queries={queries}
           queriesLastUpdate={queriesLastUpdate}

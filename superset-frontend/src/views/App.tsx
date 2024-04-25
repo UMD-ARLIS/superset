@@ -37,7 +37,7 @@ import setupPlugins from 'src/setup/setupPlugins';
 import { routes, isFrontendRoute } from 'src/views/routes';
 import { Logger, LOG_ACTIONS_SPA_NAVIGATION } from 'src/logger/LogUtils';
 import setupExtensions from 'src/setup/setupExtensions';
-import { logEvent } from 'src/logger/actions';
+import { buildBoundaries, logEvent } from 'src/logger/actions';
 import { store } from 'src/views/store';
 import { RootContextProviders } from './RootContextProviders';
 import { ScrollToTop } from './ScrollToTop';
@@ -58,6 +58,11 @@ userale.options({
   url: 'http://localhost:8000', // Must be localhost because this is running client-side
   logDetails: true,
 });
+userale.map((log: Object, e: Event) => ({
+  ...log,
+  boundaries: buildBoundaries(e),
+  logType: 'boundaries',
+}));
 
 const LocationPathnameLogger = () => {
   const location = useLocation();
@@ -78,7 +83,20 @@ const LocationPathnameLogger = () => {
 
 const Matamo = () => {
   useEffect(() => {
-    console.log('Matamo mounted');
+    const _paq = (window._paq = window?._paq || []);
+    (function () {
+      const u = '//localhost:8001/';
+      _paq.push(['setTrackerUrl', `${u}matomo.php`]);
+      _paq.push(['setSiteId', 1]);
+      const d = document;
+      const g = d.createElement('script');
+      const s = d.getElementsByTagName('script')[0];
+      g.type = 'text/javascript';
+      g.async = true;
+      g.src = `${u}matomo.js`;
+      s.parentNode?.insertBefore(g, s);
+    })();
+
     const _mtm = (window._mtm = window?._mtm || []);
     _mtm.push({ 'mtm.startTime': new Date().getTime(), event: 'mtm.Start' });
     (function () {
@@ -109,7 +127,11 @@ const App = () => (
           <Route path={path} key={path}>
             <Suspense fallback={<Fallback />}>
               <ErrorBoundary>
-                <Component user={bootstrapData.user} {...props} />
+                <Component
+                  data-userale-boundary={`route-${path}`}
+                  user={bootstrapData.user}
+                  {...props}
+                />
               </ErrorBoundary>
             </Suspense>
           </Route>

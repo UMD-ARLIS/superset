@@ -314,6 +314,7 @@ function TagList(props: TagListProps) {
       buttonStyle: 'secondary',
       'data-test': 'bulk-select',
       onClick: toggleBulkSelect,
+      useraleLabel: 'bulk-select',
     });
   }
 
@@ -326,6 +327,7 @@ function TagList(props: TagListProps) {
     ),
     buttonStyle: 'primary',
     'data-test': 'bulk-select',
+    useraleLabel: 'bulk-select',
     onClick: () => setShowTagModal(true),
   });
 
@@ -335,6 +337,7 @@ function TagList(props: TagListProps) {
   return (
     <>
       <TagModal
+        data-userale-boundary="tag-modal"
         show={showTagModal}
         onHide={() => {
           setShowTagModal(false);
@@ -348,6 +351,7 @@ function TagList(props: TagListProps) {
       />
       <SubMenu name={t('Tags')} buttons={subMenuButtons} />
       <ConfirmStatusChange
+        data-userale-boundary="confirm-status-change"
         title={t('Please confirm')}
         description={t('Are you sure you want to delete the selected tags?')}
         onConfirm={handleBulkDelete}
@@ -365,6 +369,7 @@ function TagList(props: TagListProps) {
           return (
             <>
               <ListView<Tag>
+                useraleLabel="tag"
                 bulkActions={bulkActions}
                 bulkSelectEnabled={bulkSelectEnabled}
                 cardSortSelectOptions={sortTypes}

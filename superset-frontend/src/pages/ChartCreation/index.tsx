@@ -43,6 +43,7 @@ import {
   Dataset,
   DatasetSelectLabel,
 } from 'src/features/datasets/DatasetSelectLabel';
+import { logMatomoEvent } from 'src/logger/actions';
 
 export interface ChartCreationProps extends RouteComponentProps {
   user: UserWithPermissionsAndRoles;
@@ -230,14 +231,27 @@ export class ChartCreation extends React.PureComponent<
   }
 
   gotoSlice() {
+    logMatomoEvent('Charts', 'Create Chart', 'Submit');
     this.props.history.push(this.exploreUrl());
   }
 
   changeDatasource(datasource: { label: string; value: string }) {
+    logMatomoEvent(
+      'Charts',
+      'Create Chart',
+      'Choose Dataset',
+      datasource.value,
+    );
     this.setState({ datasource });
   }
 
   changeVizType(vizType: string | null) {
+    logMatomoEvent(
+      'Charts',
+      'Create Chart',
+      'Choose Viz Type',
+      vizType || 'None',
+    );
     this.setState({ vizType });
   }
 
@@ -291,7 +305,7 @@ export class ChartCreation extends React.PureComponent<
     const isButtonDisabled = this.isBtnDisabled();
     const VIEW_INSTRUCTIONS_TEXT = t('view instructions');
     const datasetHelpText = this.state.canCreateDataset ? (
-      <span data-test="dataset-write">
+      <span data-userale-boundary="dataset-write" data-test="dataset-write">
         <Link to="/dataset/add/" data-test="add-chart-new-dataset">
           {t('Add a dataset')}{' '}
         </Link>
@@ -300,6 +314,7 @@ export class ChartCreation extends React.PureComponent<
           href="https://superset.apache.org/docs/creating-charts-dashboards/creating-your-first-dashboard/#registering-a-new-table"
           rel="noopener noreferrer"
           target="_blank"
+          data-userale-boundary="add-chart-new-dataset-instructions"
           data-test="add-chart-new-dataset-instructions"
         >
           {`${VIEW_INSTRUCTIONS_TEXT} `}
@@ -308,7 +323,10 @@ export class ChartCreation extends React.PureComponent<
         .
       </span>
     ) : (
-      <span data-test="no-dataset-write">
+      <span
+        data-test="no-dataset-write"
+        data-userale-boundary="no-dataset-write"
+      >
         <a
           href="https://superset.apache.org/docs/creating-charts-dashboards/creating-your-first-dashboard/#registering-a-new-table"
           rel="noopener noreferrer"
@@ -322,7 +340,7 @@ export class ChartCreation extends React.PureComponent<
     );
 
     return (
-      <StyledContainer>
+      <StyledContainer data-userale-boundary="chart-creation">
         <h3>{t('Create a new chart')}</h3>
         <Steps direction="vertical" size="small">
           <Steps.Step
@@ -331,6 +349,7 @@ export class ChartCreation extends React.PureComponent<
             description={
               <StyledStepDescription className="dataset">
                 <AsyncSelect
+                  data-userale-boundary="dataset-selector"
                   autoFocus
                   ariaLabel={t('Dataset')}
                   name="select-datasource"
@@ -351,6 +370,7 @@ export class ChartCreation extends React.PureComponent<
             description={
               <StyledStepDescription>
                 <VizTypeGallery
+                  data-userale-boundary="viz-type-gallery"
                   denyList={denyList}
                   className="viz-gallery"
                   onChange={this.changeVizType}
@@ -368,6 +388,8 @@ export class ChartCreation extends React.PureComponent<
             </span>
           )}
           <Button
+            id="create-new-chart"
+            data-userale-boundary="create-new-chart-button"
             buttonStyle="primary"
             disabled={isButtonDisabled}
             onClick={this.gotoSlice}

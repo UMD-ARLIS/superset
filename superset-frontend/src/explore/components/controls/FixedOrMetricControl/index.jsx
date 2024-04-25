@@ -26,6 +26,7 @@ import TextControl from 'src/explore/components/controls/TextControl';
 import MetricsControl from 'src/explore/components/controls/MetricControl/MetricsControl';
 import ControlHeader from 'src/explore/components/ControlHeader';
 import PopoverSection from 'src/components/PopoverSection';
+import { logMatomoEvent } from 'src/logger/actions';
 
 const controlTypes = {
   fixed: 'fix',
@@ -86,6 +87,7 @@ export default class FixedOrMetricControl extends React.Component {
   }
 
   setMetric(metricValue) {
+    logMatomoEvent('Charts', 'Edit Chart', 'Filter', metricValue);
     this.setState({ metricValue }, this.onChange);
   }
 
@@ -169,6 +171,7 @@ export default class FixedOrMetricControl extends React.Component {
                 }}
               >
                 <MetricsControl
+                  data-userale-boundary={`metrics-control-${controlTypes.metric}`}
                   name="metric"
                   columns={columns}
                   savedMetrics={metrics}
