@@ -35,6 +35,7 @@ const BUILDER_PANE_WIDTH = 374;
 
 const BuilderComponentPane = ({ topOffset = 0 }) => (
   <div
+    data-userale-boundary="builder-sidepane"
     data-test="dashboard-builder-sidepane"
     css={css`
       position: sticky;

@@ -829,7 +829,7 @@ function ChartList(props: ChartListProps) {
           }
           return (
             <ListView<Chart>
-              useraleLabel="chart"
+              useraleLabel="chart-list-view"
               bulkActions={bulkActions}
               bulkSelectEnabled={bulkSelectEnabled}
               cardSortSelectOptions={sortTypes}

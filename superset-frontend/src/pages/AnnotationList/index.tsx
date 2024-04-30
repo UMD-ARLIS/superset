@@ -320,7 +320,7 @@ function AnnotationList({
 
           return (
             <ListView<AnnotationObject>
-              useraleLabel="annotation-object"
+              useraleLabel="annotation-object-list-view"
               className="annotations-list-view"
               bulkActions={bulkActions}
               bulkSelectEnabled={bulkSelectEnabled}

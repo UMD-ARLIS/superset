@@ -217,7 +217,11 @@ const DashboardContainer: FC<DashboardContainerProps> = ({ topLevelTabs }) => {
   const activeKey = min === 0 ? DASHBOARD_GRID_ID : min.toString();
 
   return (
-    <div className="grid-container" data-test="grid-container">
+    <div
+      className="grid-container"
+      data-test="grid-container"
+      data-userale-boundary="grid-container"
+    >
       <ParentSize>
         {({ width }) => (
           /*
@@ -227,6 +231,7 @@ const DashboardContainer: FC<DashboardContainerProps> = ({ topLevelTabs }) => {
             happen because of React's diffing algorithm
           */
           <Tabs
+            data-userale-boundary={`tab-${DASHBOARD_GRID_ID}`}
             id={DASHBOARD_GRID_ID}
             activeKey={activeKey}
             renderTabBar={() => <></>}

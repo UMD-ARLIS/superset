@@ -356,7 +356,7 @@ function RowLevelSecurityList(props: RLSProps) {
                 show={ruleModalOpen}
               />
               <ListView<RLSObject>
-                useraleLabel="row-level-security-object"
+                useraleLabel="row-level-security-object-list-view"
                 className="rls-list-view"
                 bulkActions={bulkActions}
                 bulkSelectEnabled={bulkSelectEnabled}

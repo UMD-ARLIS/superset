@@ -331,7 +331,7 @@ function AnnotationLayersList({
 
           return (
             <ListView<AnnotationLayerObject>
-              useraleLabel="annotation-layer-object"
+              useraleLabel="annotation-layer-object-list-view"
               className="annotation-layers-list-view"
               columns={columns}
               count={layersCount}

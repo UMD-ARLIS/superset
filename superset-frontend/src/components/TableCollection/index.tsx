@@ -219,6 +219,7 @@ export default React.memo(
       {...getTableProps()}
       className="table table-hover"
       data-test="listview-table"
+      data-userale-boundary="list-view-table"
     >
       <thead>
         {headerGroups.map(headerGroup => (
@@ -281,6 +282,7 @@ export default React.memo(
             const rowId = row.original.id;
             return (
               <tr
+                data-userale-boundary={`row-${rowId}`}
                 data-test="table-row"
                 {...row.getRowProps()}
                 className={cx('table-row', {

@@ -297,7 +297,7 @@ function CssTemplatesList({
 
           return (
             <ListView<TemplateObject>
-              useraleLabel="template-object"
+              useraleLabel="template-object-list-view"
               className="css-templates-list-view"
               columns={columns}
               count={templatesCount}

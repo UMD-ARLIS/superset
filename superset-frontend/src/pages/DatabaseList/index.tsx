@@ -591,7 +591,7 @@ function DatabaseList({
       )}
 
       <ListView<DatabaseObject>
-        useraleLabel="database-object"
+        useraleLabel="database-object-list-view"
         className="database-list-view"
         columns={columns}
         count={databaseCount}

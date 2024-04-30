@@ -188,7 +188,7 @@ function ExecutionLog({
         }
       />
       <ListView<LogObject>
-        useraleLabel="log-object"
+        useraleLabel="execution-log-object-list-view"
         className="execution-log-list-view"
         columns={columns}
         count={logCount}

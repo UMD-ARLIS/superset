@@ -815,7 +815,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
           }
           return (
             <ListView<Dataset>
-              useraleLabel="dataset"
+              useraleLabel="dataset-list-view"
               className="dataset-list-view"
               columns={columns}
               data={datasets}

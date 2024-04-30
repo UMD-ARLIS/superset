@@ -55,13 +55,13 @@ const boundActions = bindActionCreators({ logEvent }, store.dispatch);
 userale.options({
   userId: bootstrapData.user?.username,
   autostart: true,
-  url: 'http://localhost:8000', // Must be localhost because this is running client-side
+  url: 'http://localhost:8000',
   logDetails: true,
 });
+
 userale.map((log: Object, e: Event) => ({
   ...log,
   boundaries: buildBoundaries(e),
-  logType: 'boundaries',
 }));
 
 const LocationPathnameLogger = () => {

@@ -369,7 +369,7 @@ function TagList(props: TagListProps) {
           return (
             <>
               <ListView<Tag>
-                useraleLabel="tag"
+                useraleLabel="tags-list-view"
                 bulkActions={bulkActions}
                 bulkSelectEnabled={bulkSelectEnabled}
                 cardSortSelectOptions={sortTypes}

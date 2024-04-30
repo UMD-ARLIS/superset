@@ -603,7 +603,7 @@ function AlertList({
             : [];
           return (
             <ListView<AlertObject>
-              useraleLabel="alert-object"
+              useraleLabel="alert-object-list-view"
               className="alerts-list-view"
               columns={columns}
               count={alertsCount}

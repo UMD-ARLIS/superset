@@ -739,7 +739,7 @@ function DashboardList(props: DashboardListProps) {
                 />
               )}
               <ListView<Dashboard>
-                useraleLabel="dashboard"
+                useraleLabel="dashboard-list-view"
                 bulkActions={bulkActions}
                 bulkSelectEnabled={bulkSelectEnabled}
                 cardSortSelectOptions={sortTypes}

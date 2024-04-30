@@ -606,6 +606,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
                     width={filterBarWidth}
                     hidden={isReport}
                     data-test="dashboard-filters-panel"
+                    data-userale-boundary="filters-panel"
                   >
                     <StickyPanel ref={containerRef} width={filterBarWidth}>
                       <ErrorBoundary>
@@ -631,6 +632,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
         {/* @ts-ignore */}
         <Droppable
           data-test="top-level-tabs"
+          data-userale-boundary="top-level-tabs"
           className={cx(!topLevelTabs && editMode && 'empty-droptarget')}
           component={dashboardRoot}
           parentComponent={null}
@@ -646,7 +648,10 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
           {renderDraggableContent}
         </Droppable>
       </StyledHeader>
-      <StyledContent fullSizeChartId={fullSizeChartId}>
+      <StyledContent
+        data-userale-boundary="content"
+        fullSizeChartId={fullSizeChartId}
+      >
         <Global
           styles={css`
             // @z-index-above-dashboard-header (100) + 1 = 101
@@ -672,6 +677,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
           )}
         <DashboardContentWrapper
           data-test="dashboard-content-wrapper"
+          data-userale-boundary="content-wrapper"
           className={cx('dashboard', editMode && 'dashboard--editing')}
         >
           <StyledDashboardContent

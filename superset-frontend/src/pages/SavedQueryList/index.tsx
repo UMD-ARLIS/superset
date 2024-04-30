@@ -580,7 +580,7 @@ function SavedQueryList({
           }
           return (
             <ListView<SavedQueryObject>
-              useraleLabel="saved-query-object"
+              useraleLabel="saved-query-object-list-view"
               className="saved_query-list-view"
               columns={columns}
               count={queryCount}
